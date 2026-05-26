@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FB Jobs Aggregator</title>
+  <link rel="stylesheet" href="/frontend/styles.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>FB Jobs Aggregator</h1>
+    <p>Tổng hợp việc làm cho sinh viên / part-time / IT</p>
+
+    <section class="filters">
+      <input id="q" placeholder="Tìm theo từ khoá..." />
+      <select id="tag">
+        <option value="">Tất cả tag</option>
+        <option value="student">student</option>
+        <option value="part-time">part-time</option>
+        <option value="it">it</option>
+        <option value="other">other</option>
+      </select>
+      <input id="location" placeholder="Địa điểm..." />
+      <button id="searchBtn">Tìm</button>
+    </section>
+
+    <div class="actions">
+      <a href="/export/json" target="_blank">Export JSON</a>
+      <a href="/export/csv" target="_blank">Export CSV</a>
+    </div>
+
+    <section id="list" class="list"></section>
+  </main>
+
+  <script src="/frontend/app.js"></script>
+</body>
+</html>

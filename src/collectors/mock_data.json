@@ -1,0 +1,35 @@
+[
+  {
+    "id": "job-001",
+    "source_group": "Việc làm IT Fresher",
+    "source_url": "https://facebook.com/groups/example-it/posts/1",
+    "title": "Tuyển Frontend Intern React Part-time",
+    "description": "Công ty ABC tuyển sinh viên năm 3-4, làm part-time 20h/tuần.",
+    "location": "Hà Nội",
+    "salary": "4-6 triệu",
+    "posted_at": "2026-05-20",
+    "tags": []
+  },
+  {
+    "id": "job-002",
+    "source_group": "Việc làm Part-time Sinh viên",
+    "source_url": "https://facebook.com/groups/example-parttime/posts/2",
+    "title": "Nhân viên bán hàng ca tối",
+    "description": "Phù hợp sinh viên, xoay ca linh hoạt.",
+    "location": "TP.HCM",
+    "salary": "25k/giờ",
+    "posted_at": "2026-05-22",
+    "tags": []
+  },
+  {
+    "id": "job-003",
+    "source_group": "Jobs Tech VN",
+    "source_url": "https://facebook.com/groups/example-it/posts/3",
+    "title": "Backend Python Developer",
+    "description": "Kinh nghiệm FastAPI, PostgreSQL. Full-time.",
+    "location": "Remote",
+    "salary": "Thoả thuận",
+    "posted_at": "2026-05-25",
+    "tags": []
+  }
+]
