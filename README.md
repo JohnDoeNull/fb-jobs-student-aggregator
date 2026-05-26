@@ -28,5 +28,21 @@ Dự án thu thập và tổng hợp tin tuyển dụng từ các group Facebook
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-python src/main.py --config configs/groups.example.yaml
+python -m playwright install chromium
+PYTHONPATH=. python -m src.main --config configs/groups.yaml
+uvicorn src.api:app --reload
 ```
+
+## Phase 2: Live crawler (Playwright)
+- Cấu hình group tại `configs/groups.yaml`
+- Export cookies Facebook dạng JSON vào: `data/secrets/facebook_cookies.json`
+- Chạy pipeline:
+```bash
+bash scripts/run_pipeline.sh
+```
+- Refresh qua API:
+```bash
+curl -X POST 'http://127.0.0.1:8000/refresh'
+```
+
+> Nếu thiếu cookies hoặc crawl lỗi, hệ thống tự fallback qua mock collector để service không downtime.

@@ -3,14 +3,13 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from src.collectors.facebook_collector import FacebookCollector
+from src.collectors.fallback_collector import collect_with_fallback
 from src.pipeline.classifier import enrich_jobs
 from src.pipeline.storage import save_csv, save_json
 
 
 def run_pipeline(config_path: str) -> None:
-    collector = FacebookCollector(config_path)
-    raw_jobs = collector.collect()
+    raw_jobs = collect_with_fallback(config_path)
     jobs = enrich_jobs(raw_jobs)
 
     out_json = Path("data/processed/jobs.json")

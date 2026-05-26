@@ -6,3 +6,5 @@ __pycache__/
 *.log
 data/raw/*
 !data/raw/.gitkeep
+data/secrets/*
+!data/secrets/.gitkeep

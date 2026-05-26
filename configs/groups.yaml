@@ -1,0 +1,11 @@
+groups:
+  - name: "Việc làm IT Fresher"
+    url: "https://www.facebook.com/groups/example-it"
+    tags: ["it", "student"]
+  - name: "Việc làm Part-time Sinh viên"
+    url: "https://www.facebook.com/groups/example-parttime"
+    tags: ["part-time", "student"]
+crawl:
+  max_posts_per_group: 25
+  headless: true
+  scroll_rounds: 6

@@ -3,6 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Optional
 from fastapi import FastAPI, Query
+from src.main import run_pipeline
 from fastapi.responses import FileResponse
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
@@ -70,3 +71,10 @@ def export_json():
 @app.get("/export/csv")
 def export_csv():
     return FileResponse(DATA_CSV)
+
+
+@app.post("/refresh")
+def refresh(config_path: str = "configs/groups.yaml"):
+    run_pipeline(config_path)
+    jobs = _read()
+    return {"ok": True, "count": len(jobs)}
