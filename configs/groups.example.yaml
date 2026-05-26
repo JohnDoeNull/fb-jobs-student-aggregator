@@ -1,0 +1,7 @@
+groups:
+  - name: "Việc làm IT Fresher"
+    url: "https://facebook.com/groups/example-it"
+    tags: ["it", "student"]
+  - name: "Việc làm Part-time Sinh viên"
+    url: "https://facebook.com/groups/example-parttime"
+    tags: ["part-time", "student"]
