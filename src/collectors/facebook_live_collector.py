@@ -6,6 +6,7 @@ import hashlib
 from datetime import datetime
 from pathlib import Path
 from typing import List
+from urllib.parse import quote_plus
 
 import yaml
 from playwright.sync_api import sync_playwright
@@ -76,7 +77,9 @@ class FacebookLiveCollector:
                 url = g.get("url", "")
                 seed_tags = g.get("tags", [])
                 if not url:
-                    continue
+                    # fallback: tìm group theo tên khi chưa có URL cụ thể
+                    q = quote_plus(name)
+                    url = f"https://www.facebook.com/search/groups/?q={q}"
 
                 page.goto(url, wait_until="domcontentloaded", timeout=90_000)
                 page.wait_for_timeout(3000)
