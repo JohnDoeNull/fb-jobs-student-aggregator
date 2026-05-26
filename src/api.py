@@ -2,11 +2,29 @@ from __future__ import annotations
 
 from pathlib import Path
 from typing import Optional
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Query, WebSocket
 from src.main import run_pipeline
 from fastapi.responses import FileResponse
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
+import asyncio
+
+class ConnectionManager:
+    def __init__(self):
+        self.active_connections: list[WebSocket] = []
+
+    async def connect(self, websocket: WebSocket):
+        await websocket.accept()
+        self.active_connections.append(websocket)
+
+    def disconnect(self, websocket: WebSocket):
+        self.active_connections.remove(websocket)
+
+    async def broadcast(self, message: str):
+        for connection in self.active_connections:
+            await connection.send_text(message)
+
+manager = ConnectionManager()
 
 from src.models import JobPost
 from src.pipeline.storage import load_json
@@ -78,3 +96,35 @@ def refresh(config_path: str = "configs/groups.yaml"):
     run_pipeline(config_path)
     jobs = _read()
     return {"ok": True, "count": len(jobs)}
+
+LOG_FILE = Path.home() / ".hermes/logs/agent.log"
+
+async def tail_logs():
+    if not LOG_FILE.exists():
+        await manager.broadcast(f"ERROR: Log file not found at {LOG_FILE}")
+        return
+
+    proc = await asyncio.create_subprocess_shell(
+        f"tail -n 50 -f {LOG_FILE}",
+        stdout=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.PIPE,
+    )
+
+    while proc.stdout and not proc.stdout.at_eof():
+        line = await proc.stdout.readline()
+        if line:
+            await manager.broadcast(line.decode().strip())
+
+@app.on_event("startup")
+async def startup_event():
+    asyncio.create_task(tail_logs())
+
+@app.websocket("/ws/monitor")
+async def websocket_endpoint(websocket: WebSocket):
+    await manager.connect(websocket)
+    try:
+        while True:
+            # Giữ kết nối mở để client có thể nhận broadcast
+            await websocket.receive_text()
+    except Exception:
+        manager.disconnect(websocket)
